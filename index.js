@@ -67,6 +67,26 @@ async function run() {
 
         // UPDATE API 
 
+        app.put('/register/:id', async (req, res) => {
+            const id = req.params.id;
+            const data = req.body;
+            const filter = { _id: ObjectId(id) };
+            const options = { upsert: true };
+            const updateDoc = {
+                $set: {
+                    // same as userName and texData 
+                    // ...data
+                    fullName: data.fullName,
+                    email: data.email,
+                    date: data.date,
+                    Desicription: data.Desicription,
+                    organize: data.organize
+                },
+            };
+            const result = await registerCollection.updateOne(filter, updateDoc, options);
+            res.send(result);
+        })
+
         // DELETE 
         app.delete('/events/:id', async (req, res) => {
             const id = req.params.id;
